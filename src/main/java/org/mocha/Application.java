@@ -9,11 +9,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.mocha.annotations.Window;
+import org.mocha.exceptions.WindowNotDefinedException;
 import org.mocha.inputs.InputManager;
 import org.mocha.inputs.KeyHandler;
 import org.mocha.inputs.MouseHandler;
 import org.mocha.interfaces.ILogic;
 
+/**
+ * The main class of your game. You should extend this class and start making your game.
+ */
 public abstract class Application extends JPanel implements Runnable, ILogic {
     private Thread thread;
     private JFrame frame;
@@ -65,6 +69,9 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         }
     }
 
+    /**
+     * Game initializer method. You may want to call it on your constructor.
+     */
     public void init() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setDoubleBuffered(true);

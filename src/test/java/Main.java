@@ -11,8 +11,7 @@ public class Main extends Application {
 
     Player player;
 
-    Main() {
-        super();
+    public Main() {
         init();
 
         input.addAction("up", KeyEvent.VK_UP);

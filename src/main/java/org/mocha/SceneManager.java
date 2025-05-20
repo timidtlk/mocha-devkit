@@ -1,13 +1,10 @@
 package org.mocha;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +13,7 @@ public class SceneManager {
     private List<Scene> scenes;
 
     public SceneManager() {
-        actualScene = new Scene("Scene");
+        actualScene = new Scene();
         scenes = new ArrayList<>();
         actualScene.setActive(true);
         scenes.add(actualScene);

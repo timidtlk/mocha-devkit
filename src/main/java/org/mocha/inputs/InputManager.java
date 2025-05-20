@@ -3,7 +3,7 @@ package org.mocha.inputs;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mocha.InputNotDefinedException;
+import org.mocha.exceptions.InputNotDefinedException;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

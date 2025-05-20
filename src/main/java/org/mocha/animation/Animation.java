@@ -4,11 +4,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
+@Data
 public class Animation {
-
     private int frameCount;
     private int frameDelay;
     private int currentFrame;
@@ -102,33 +101,4 @@ public class Animation {
         }
 
     }
-
-    public int getFrameCount() {
-        return frameCount;
-    }
-
-    public int getFrameDelay() {
-        return frameDelay;
-    }
-
-    public int getCurrentFrame() {
-        return currentFrame;
-    }
-
-    public int getAnimationDirection() {
-        return animationDirection;
-    }
-
-    public int getTotalFrames() {
-        return totalFrames;
-    }
-
-    public boolean isStopped() {
-        return stopped;
-    }
-
-    public List<Frame> getFrames() {
-        return frames;
-    }
-
 }

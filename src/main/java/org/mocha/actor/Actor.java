@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mocha.interfaces.ILogic;
+import org.mocha.interfaces.IInnerLogic;
 import org.mocha.util.Mathf;
 import org.mocha.util.Position;
 import org.mocha.util.Vector2;
@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Actor implements ILogic {
+public class Actor implements IInnerLogic {
     protected Position position;
     protected Position localPosition;
     protected Vector2 velocity;
@@ -62,7 +62,7 @@ public class Actor implements ILogic {
     public void rotateTo(Position position, double factor) {
         position.subtract(this.position);
 
-        var n = new Vector2(position.getX(), position.getY()).fastNormalized();
+        var n = Vector2.of(position).fastNormalize();
 
         rotation = Mathf.lerpAngle(rotation, Math.atan2(n.getY(), n.getX()), factor);
     }
@@ -109,7 +109,7 @@ public class Actor implements ILogic {
     public void start() {}
 
     @Override
-    public void update() {
+    public final void innerUpdate() {
         position.sum(velocity.getX(), velocity.getY());
         velocity.setX(0);
         velocity.setY(0);
@@ -118,7 +118,10 @@ public class Actor implements ILogic {
             this.position = parent.position.sum(localPosition);
             this.rotation = parent.rotation;
         }
+        update();
     }
+    @Override
+    public void update() {}
 
     @Override
     public void draw(Graphics2D g2) {}

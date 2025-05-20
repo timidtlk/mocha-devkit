@@ -3,12 +3,9 @@ package org.mocha.actor;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 
 import org.mocha.annotations.ShowHitbox;
 import org.mocha.util.GraphicsUtil;
-import org.mocha.util.Position;
-import org.mocha.util.Vector2;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,16 +30,12 @@ public class Box extends Actor {
     }
 
     @Override
-    public void update() {
-        super.update();
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
+    public final void innerDraw(Graphics2D g2) {
         if (getClass().isAnnotationPresent(ShowHitbox.class)) {
             g2.setColor(debugColor);
             GraphicsUtil.drawRotatedRect(getX(), getY(), width, height, rotation, g2);
         }
+        draw(g2);
     }
 
     public boolean checkCollision(Box box) {

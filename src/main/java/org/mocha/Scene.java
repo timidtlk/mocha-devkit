@@ -36,21 +36,21 @@ public class Scene implements ILogic {
     @Override
     public void start() {
         actors.forEach((actor) -> {
-            actor.start();
+            actor.innerStart();
         });
     }
 
     @Override
     public void update() {
         actors.forEach((actor) -> {
-            actor.update();
+            actor.innerUpdate();
         });
     }
 
     @Override
     public void draw(Graphics2D g2) {
         actors.forEach((actor) -> {
-            actor.draw(g2);
+            actor.innerDraw(g2);
         });
     }
 }

@@ -1,4 +1,4 @@
-package org.mocha;
+package org.mocha.exceptions;
 
 public class WindowNotDefinedException extends Exception {
     public WindowNotDefinedException() {

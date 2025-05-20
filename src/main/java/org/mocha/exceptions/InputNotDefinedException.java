@@ -1,4 +1,4 @@
-package org.mocha;
+package org.mocha.exceptions;
 
 public class InputNotDefinedException extends Exception {
     public InputNotDefinedException() {

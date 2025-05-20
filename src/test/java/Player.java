@@ -48,8 +48,7 @@ public class Player extends Box {
 
     @Override
     public void update() {
-        super.update();
-        sprite.update();
+        sprite.innerUpdate();
 
         velocity.set(
             input.getInputStatus("right") - input.getInputStatus("left"),
@@ -63,7 +62,6 @@ public class Player extends Box {
 
     @Override
     public void draw(Graphics2D g2) {
-        super.draw(g2);
-        sprite.draw(g2);
+        sprite.innerDraw(g2);
     }
 }

@@ -11,6 +11,10 @@ public class Vector2 {
     private double x;
     private double y;
 
+    public static Vector2 of(Position pos) {
+        return new Vector2(pos.getX(), pos.getY());
+    }
+
     public void set(double x, double y) {
         this.x = x;
         this.y = y;
@@ -25,6 +29,9 @@ public class Vector2 {
         y *= n;
     }
 
+    /**
+     * Fast version of {@link #getLength()} using Quake's fast square root.
+     */
     public double getLengthFast() {
         double d = x * x + y * y;
         double sqrt = Double.longBitsToDouble( ( ( Double.doubleToLongBits( d )-(1l<<52) )>>1 ) + ( 1l<<61 ) );
@@ -33,27 +40,40 @@ public class Vector2 {
         return evenbetter;
     }
 
+    /**
+     * @return A normalized new instance.
+     */
     public Vector2 normalized() {
         double length = getLength();
         return new Vector2(x/length, y/length);
     }
 
+    /**
+     * Normalizes this vector.
+     * @return This instance.
+     */
     public Vector2 normalize() {
         double length = getLength();
         this.set(x/length, y/length);
-
         return this;
     }
 
+    /**
+     * Fast version of {@link #normalize()} using Quake's fast square root.
+     * @return A normalized new instance.
+     */
     public Vector2 fastNormalized() {
         double length = getLengthFast();
         return new Vector2(x/length, y/length);
     }
 
+    /**
+     * Fast version of {@link #normalize()} using Quake's fast square root.
+     * @return This instance.
+     */
     public Vector2 fastNormalize() {
         double length = getLengthFast();
         this.set(x/length, y/length);
-
         return this;
     }
 
