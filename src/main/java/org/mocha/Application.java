@@ -94,8 +94,6 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
             unprocessedTime += deltaTime / (double) NANOSECOND;
             frameCounter += deltaTime;
 
-            // input
-
             while (unprocessedTime > frameTime) {
                 render = true;
                 unprocessedTime -= frameTime;

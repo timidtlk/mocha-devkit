@@ -38,9 +38,11 @@ public class Vector2 {
         return new Vector2(x/length, y/length);
     }
 
-    public void normalize() {
+    public Vector2 normalize() {
         double length = getLength();
         this.set(x/length, y/length);
+
+        return this;
     }
 
     public Vector2 fastNormalized() {
@@ -48,9 +50,11 @@ public class Vector2 {
         return new Vector2(x/length, y/length);
     }
 
-    public void fastNormalize() {
+    public Vector2 fastNormalize() {
         double length = getLengthFast();
         this.set(x/length, y/length);
+
+        return this;
     }
 
     public double dotProduct(Vector2 v) {
