@@ -14,25 +14,25 @@ public class KeyHandler extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         int src = e.getKeyCode();
 
-        for (InputAction action : manager.getActions()) {
-            for(int input : action.getInputs()) {
-                if (src == input) {
-                    action.setStatus(true);
-                }
+        var actions = manager.getActions();
+        actions.forEach((a) -> {
+            for (Integer input : a.getInputs()) {
+                if (src == input) a.setStatus(1);
             }
-        }
+        });
+        manager.setActions(actions);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         int src = e.getKeyCode();
 
-        for (InputAction action : manager.getActions()) {
-            for(int input : action.getInputs()) {
-                if (src == input) {
-                    action.setStatus(false);
-                }
+        var actions = manager.getActions();
+        actions.forEach((a) -> {
+            for (Integer input : a.getInputs()) {
+                if (src == input) a.setStatus(0);
             }
-        }
+        });
+        manager.setActions(actions);
     }
 }

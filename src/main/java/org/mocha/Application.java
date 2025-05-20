@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.mocha.annotations.Window;
+import org.mocha.inputs.InputManager;
+import org.mocha.inputs.KeyHandler;
+import org.mocha.inputs.MouseHandler;
 import org.mocha.interfaces.ILogic;
 
 public abstract class Application extends JPanel implements Runnable, ILogic {
@@ -23,12 +26,27 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     private String title;
     
     private final long NANOSECOND = 1000000000L;
-    private final float FRAMERATE = 1000;
+    private final float FRAMERATE = 60;
 
     private int fps;
     private float frameTime = 1.0f / FRAMERATE;
 
+    protected InputManager input;
+    protected SceneManager scenes;
+    protected Scene scene;
+
+    private KeyHandler keyH;
+    private MouseHandler mouseH;
+
     public Application() {
+        System.setProperty("sun.java2d.opengl", "true");
+
+        scene = new Scene();
+        input = new InputManager();
+        scenes = new SceneManager(scene);
+        keyH = new KeyHandler(input);
+        mouseH = new MouseHandler(input);
+
         try {
             if(getClass().isAnnotationPresent(Window.class)) {
                 Window window = getClass().getAnnotation(Window.class);
@@ -43,6 +61,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(-1);
         }
     }
 
@@ -51,6 +70,10 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         this.setDoubleBuffered(true);
         this.setFocusable(true);
         this.setBackground(Color.BLACK);
+        this.addKeyListener(keyH);
+        this.addMouseListener(mouseH);
+
+        start();
 
         initializeFrame();
     }
@@ -86,7 +109,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
             }
 
             if (render) {
-                update(deltaTime);
+                update();
                 repaint();
                 frames++;
             }
@@ -109,13 +132,18 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     }
 
     @Override
-    public void start() {}
+    public void start() {
+        scene.start();
+    }
+
     @Override
-    public void update(double deltaTime) {}
+    public void update() {
+        scene.update();
+    }
 
     @Override
     public void draw(Graphics2D g2) {
-        
+        scene.draw(g2);
     }
 
     @Override

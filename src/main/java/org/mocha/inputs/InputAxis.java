@@ -1,5 +1,5 @@
 package org.mocha.inputs;
 
-public class InputController {
+public class InputAxis {
     
 }

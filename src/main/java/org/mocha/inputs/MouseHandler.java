@@ -14,26 +14,26 @@ public class MouseHandler extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         int src = e.getButton();
 
-        for (InputAction action : manager.getActions()) {
-            for(int input : action.getInputs()) {
-                if (src == input) {
-                    action.setStatus(true);
-                }
+        var actions = manager.getActions();
+        actions.forEach((a) -> {
+            for (Integer input : a.getInputs()) {
+                if (src == input) a.setStatus(1);
             }
-        }
+        });
+        manager.setActions(actions);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         int src = e.getButton();
 
-        for (InputAction action : manager.getActions()) {
-            for(int input : action.getInputs()) {
-                if (src == input) {
-                    action.setStatus(false);
-                }
+        var actions = manager.getActions();
+        actions.forEach((a) -> {
+            for (Integer input : a.getInputs()) {
+                if (src == input) a.setStatus(0);
             }
-        }
+        });
+        manager.setActions(actions);
     }
 
 }
