@@ -21,8 +21,7 @@ public class AnimatedSprite extends Actor {
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void update(double deltaTime) {
         animationManager.updateActualAnimation();
     }    
 

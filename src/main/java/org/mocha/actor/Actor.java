@@ -109,8 +109,8 @@ public class Actor implements IInnerLogic {
     public void start() {}
 
     @Override
-    public final void innerUpdate() {
-        position.sum(velocity.getX(), velocity.getY());
+    public final void innerUpdate(double deltaTime) {
+        position.sum(velocity.getX() * deltaTime, velocity.getY() * deltaTime);
         velocity.setX(0);
         velocity.setY(0);
         
@@ -118,10 +118,10 @@ public class Actor implements IInnerLogic {
             this.position = parent.position.sum(localPosition);
             this.rotation = parent.rotation;
         }
-        update();
+        update(deltaTime);
     }
     @Override
-    public void update() {}
+    public void update(double deltaTime) {}
 
     @Override
     public void draw(Graphics2D g2) {}

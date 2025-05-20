@@ -26,7 +26,7 @@ public class Player extends Box {
     public Player(double x, double y, InputManager input) {
         super(x, y, 32, 32);
         this.input = input;
-        speed = 2;
+        speed = 500;
         debugColor = new Color(255, 0, 0, 50);
 
         SpriteSheet spriteSheet = new SpriteSheet("sprites/bosta.png", 32, 32);
@@ -47,8 +47,8 @@ public class Player extends Box {
     }
 
     @Override
-    public void update() {
-        sprite.innerUpdate();
+    public void update(double deltaTime) {
+        sprite.innerUpdate(deltaTime);
 
         velocity.set(
             input.getInputStatus("right") - input.getInputStatus("left"),

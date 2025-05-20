@@ -10,7 +10,7 @@ public interface ILogic {
     /**
      * You should call {@link #innerUpdate())} if there is it.
      */
-    public void update();
+    public void update(double deltaTime);
     /**
      * You should call {@link #innerDraw()} if there is it.
      */

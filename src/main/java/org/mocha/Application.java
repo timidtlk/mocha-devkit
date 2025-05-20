@@ -30,7 +30,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     private String title;
     
     private final long NANOSECOND = 1000000000L;
-    private final float FRAMERATE = 60;
+    private final float FRAMERATE = 1000;
 
     private int fps;
     private float frameTime = 1.0f / FRAMERATE;
@@ -91,6 +91,8 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         long frameCounter = 0;
         long lastTime = System.nanoTime();
         double unprocessedTime = 0;
+        
+        long lastTimeRendered = 0;
 
         while (thread != null) {
             boolean render = false;
@@ -114,9 +116,10 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
             }
 
             if (render) {
-                update();
+                update((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND);
                 repaint();
                 frames++;
+                lastTimeRendered = System.nanoTime();
             }
         }
     }
@@ -142,8 +145,8 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     }
 
     @Override
-    public void update() {
-        scene.update();
+    public void update(double deltaTime) {
+        scene.update(deltaTime);
     }
 
     @Override

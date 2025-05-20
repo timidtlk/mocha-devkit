@@ -12,8 +12,8 @@ public interface IInnerLogic extends ILogic {
     /**
      * This method must be final. Override {@link #update()} instead.
      */
-    public default void innerUpdate() {
-        update();
+    public default void innerUpdate(double deltaTime) {
+        update(deltaTime);
     };
     /**
      * This method must be final. Override {@link #draw()} instead.

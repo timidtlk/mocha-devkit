@@ -41,9 +41,9 @@ public class Scene implements ILogic {
     }
 
     @Override
-    public void update() {
+    public void update(double deltaTime) {
         actors.forEach((actor) -> {
-            actor.innerUpdate();
+            actor.innerUpdate(deltaTime);
         });
     }
 
