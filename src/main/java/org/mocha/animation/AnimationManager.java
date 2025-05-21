@@ -33,8 +33,8 @@ public class AnimationManager {
         actualAnimation.restart();
     }
 
-    public void updateActualAnimation() {
-        actualAnimation.update();
+    public void updateActualAnimation(double deltaTime) {
+        actualAnimation.update(deltaTime);
     }
 
     public BufferedImage getActualSprite() {

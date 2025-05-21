@@ -8,8 +8,8 @@ import lombok.Data;
 
 @Data
 public class Animation {
-    private int frameCount;
-    private int frameDelay;
+    private double frameCount;
+    private double frameDelay;
     private int currentFrame;
     private int animationDirection;
     private int totalFrames;
@@ -18,7 +18,7 @@ public class Animation {
 
     private List<Frame> frames = new ArrayList<Frame>();
 
-    public Animation(BufferedImage[] frames, int frameDelay) {
+    public Animation(BufferedImage[] frames, double frameDelay) {
         this.frameDelay = frameDelay;
         this.stopped = true;
 
@@ -69,7 +69,7 @@ public class Animation {
         this.currentFrame = 0;
     }
 
-    private void addFrame(BufferedImage frame, int duration) {
+    private void addFrame(BufferedImage frame, double duration) {
         if (duration <= 0) {
             System.err.println("Invalid duration: " + duration);
             throw new RuntimeException("Invalid duration: " + duration);
@@ -83,9 +83,9 @@ public class Animation {
         return frames.get(currentFrame).getFrame();
     }
 
-    public void update() {
+    public void update(double deltaTime) {
         if (!stopped) {
-            frameCount++;
+            frameCount += deltaTime;
 
             if (frameCount > frameDelay) {
                 frameCount = 0;

@@ -10,9 +10,9 @@ import lombok.Setter;
 public class Frame {
 
     private BufferedImage frame;
-    private int duration;
+    private double duration;
 
-    public Frame(BufferedImage frame, int duration) {
+    public Frame(BufferedImage frame, double duration) {
         this.frame = frame;
         this.duration = duration;
     }

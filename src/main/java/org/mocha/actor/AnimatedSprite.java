@@ -22,7 +22,7 @@ public class AnimatedSprite extends Actor {
 
     @Override
     public void update(double deltaTime) {
-        animationManager.updateActualAnimation();
+        animationManager.updateActualAnimation(deltaTime);
     }    
 
     @Override
