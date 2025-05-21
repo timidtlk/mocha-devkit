@@ -4,15 +4,15 @@ import java.awt.Graphics2D;
 
 public interface ILogic {
     /**
-     * You should call {@link #innerStart()} if there is it.
+     * This method is intended to be overrided and only called by {@link IInnerLogic#innerStart()}.
      */
     public void start();
     /**
-     * You should call {@link #innerUpdate())} if there is it.
+     * This method is intended to be overrided and only called by {@link IInnerLogic#innerUpdate(double)}.
      */
     public void update(double deltaTime);
     /**
-     * You should call {@link #innerDraw()} if there is it.
+     * This method is intended to be overrided and only called by {@link IInnerLogic#innerDraw(Graphics2D)}.
      */
     public void draw(Graphics2D g2);
 }

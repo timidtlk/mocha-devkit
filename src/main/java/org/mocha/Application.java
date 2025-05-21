@@ -70,7 +70,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     }
 
     /**
-     * Game initializer method. You may want to call it on your constructor.
+     * Game initializer method. You may want to call it in the end of your constructor.
      */
     public void init() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));

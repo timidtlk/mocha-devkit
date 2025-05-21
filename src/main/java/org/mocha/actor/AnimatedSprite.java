@@ -23,12 +23,10 @@ public class AnimatedSprite extends Actor {
     @Override
     public void update(double deltaTime) {
         animationManager.updateActualAnimation(deltaTime);
-    }    
+    }
 
     @Override
     public void draw(Graphics2D g2) {
-        super.draw(g2);
-
         var image = animationManager.getActualSprite();
         GraphicsUtil.drawRotatedImage(image, getX(), getY(), rotation, g2);
     }
