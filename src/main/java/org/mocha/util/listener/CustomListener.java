@@ -13,6 +13,9 @@ import org.mocha.util.listener.PriorityListener.PriorityConsumer;
 public class CustomListener<E> {
     ConcurrentHashMap<E, ConcurrentHashMap<UUID, PriorityListener<E>>> manager = new ConcurrentHashMap<>();
 
+    /**
+     * @param priority Ascendant execution order.
+     */
     public void addListener(E trigger, UUID id, int priority, PriorityConsumer<E> consumer) {
         var syn = manager.get(trigger);
         if (syn == null) {
@@ -25,6 +28,9 @@ public class CustomListener<E> {
         }
     }
 
+    /**
+     * @param priority Ascendant execution order.
+     */
     public UUID addListener(E trigger, int priority, PriorityConsumer<E> consumer) {
         var id = UUID.randomUUID();
         addListener(trigger, id, priority, consumer);
@@ -40,16 +46,19 @@ public class CustomListener<E> {
         }
     }
 
-    public void dispatch(CustomEvent<E> e) {
-        if (manager.isEmpty()) return;
+    public <T extends CustomEvent<E>> T dispatch(T e) {
+        skip: {
+            if (manager.isEmpty()) break skip;
 
-        var syn = manager.get(e.TYPE);
-        if (syn == null) return;
+            var syn = manager.get(e.TYPE);
+            if (syn == null) break skip;
 
-        synchronized(syn) {
-            var sorted = new TreeSet<>(syn.values());
-            sorted.forEach(listener -> listener.accept(e));
+            synchronized(syn) {
+                var sorted = new TreeSet<>(syn.values());
+                sorted.forEach(listener -> listener.accept(e));
+            }
         }
+        return e;
     }
 
     public void clear() {

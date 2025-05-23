@@ -6,8 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.mocha.annotations.UnlimitFPS;
 import org.mocha.annotations.Window;
 import org.mocha.exceptions.WindowNotDefinedException;
 import org.mocha.inputs.InputManager;
@@ -30,10 +32,12 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     private String title;
     
     private final long NANOSECOND = 1000000000L;
-    private final float FRAMERATE = 1000;
+    private float FRAMERATE;
 
     private int fps;
-    private float frameTime = 1.0f / FRAMERATE;
+    private float frameTime;
+
+    private boolean limited = true;
 
     protected InputManager input;
     protected SceneManager scenes;
@@ -51,15 +55,17 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         keyH = new KeyHandler(input);
         mouseH = new MouseHandler(input);
 
+        
         try {
             if(getClass().isAnnotationPresent(Window.class)) {
                 Window window = getClass().getAnnotation(Window.class);
-        
+                
                 screenHeight = window.height();
                 screenWidth = window.width();
                 blackBars = window.blackBars();
                 resizable = window.resizable();
                 title = window.title();
+                FRAMERATE = window.defaultFps();
             } else {
                 throw new WindowNotDefinedException();
             }
@@ -67,6 +73,13 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
             e.printStackTrace();
             System.exit(-1);
         }
+
+        if (getClass().isAnnotationPresent(UnlimitFPS.class)) {
+            JOptionPane.showMessageDialog(null, "WARNING: This is a debug feature only. Using this anotation can result in unstable performance.", "Warning", JOptionPane.WARNING_MESSAGE);
+            limited = false;
+        }
+
+        frameTime = 1.0f / FRAMERATE;
     }
 
     /**
@@ -103,9 +116,30 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
             unprocessedTime += deltaTime / (double) NANOSECOND;
             frameCounter += deltaTime;
 
-            while (unprocessedTime > frameTime) {
-                render = true;
-                unprocessedTime -= frameTime;
+            if (limited) {
+                while (unprocessedTime > frameTime) {
+                    render = true;
+                    unprocessedTime -= frameTime;
+    
+                    if (frameCounter >= NANOSECOND) {
+                        fps = frames;
+                        frame.setTitle(title + " | FPS: " + fps);
+                        frames = 0;
+                        frameCounter = 0;
+                    }
+                }
+    
+                if (render) {
+                    update((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND);
+                    repaint();
+                    frames++;
+                    lastTimeRendered = System.nanoTime();
+                }
+            } else {
+                update((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND);
+                repaint();
+                frames++;
+                lastTimeRendered = System.nanoTime();
 
                 if (frameCounter >= NANOSECOND) {
                     fps = frames;
@@ -113,13 +147,6 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
                     frames = 0;
                     frameCounter = 0;
                 }
-            }
-
-            if (render) {
-                update((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND);
-                repaint();
-                frames++;
-                lastTimeRendered = System.nanoTime();
             }
         }
     }

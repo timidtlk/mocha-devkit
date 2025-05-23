@@ -1,14 +1,17 @@
+package demo;
+
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import org.mocha.Application;
 import org.mocha.actor.Sprite;
+import org.mocha.annotations.UnlimitFPS;
 import org.mocha.annotations.Window;
 
 @Window(width = 640, height = 480, title = "Test")
+@UnlimitFPS
 public class Main extends Application {
-
     Player player;
 
     public Main() {

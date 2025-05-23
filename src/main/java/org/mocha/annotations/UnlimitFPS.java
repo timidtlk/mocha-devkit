@@ -7,11 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Window {
-    int width() default 0;
-    int height() default 0;
-    int defaultFps() default 60;
-    boolean blackBars() default true;
-    boolean resizable() default true;
-    String title() default "Powered By MochaDevKit";
+public @interface UnlimitFPS {
 }
