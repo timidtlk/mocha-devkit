@@ -11,6 +11,7 @@ public @interface Window {
     int width() default 0;
     int height() default 0;
     int defaultFps() default 60;
+    int scale() default 1;
     boolean blackBars() default true;
     boolean resizable() default true;
     String title() default "Powered By MochaDevKit";

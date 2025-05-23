@@ -28,7 +28,7 @@ public class Player extends Box {
     public Player(double x, double y, InputManager input) {
         super(x, y, 32, 32);
         this.input = input;
-        speed = 500;
+        speed = 30;
         debugColor = new Color(255, 0, 0, 50);
 
         SpriteSheet spriteSheet = new SpriteSheet("sprites/bosta.png", 32, 32);

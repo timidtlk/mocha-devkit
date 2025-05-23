@@ -20,7 +20,7 @@ public class Main extends Application {
         input.addAction("left", KeyEvent.VK_LEFT);
         input.addAction("right", KeyEvent.VK_RIGHT);
         
-        player = new Player(10, 10, input);
+        player = new Player(16, 16, input);
         scene.addActor(player);
         Sprite spr = null;
         try {

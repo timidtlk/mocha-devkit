@@ -17,6 +17,8 @@ import org.mocha.inputs.KeyHandler;
 import org.mocha.inputs.MouseHandler;
 import org.mocha.interfaces.ILogic;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
+
 /**
  * The main class of your game. You should extend this class and start making your game.
  */
@@ -47,14 +49,14 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     private MouseHandler mouseH;
 
     public Application() {
-        System.setProperty("sun.java2d.opengl", "true");
+        System.setProperty("sun.java2d.opengl", "True");
+        FlatDarculaLaf.setup();
 
         scene = new Scene();
         input = new InputManager();
         scenes = new SceneManager(scene);
         keyH = new KeyHandler(input);
         mouseH = new MouseHandler(input);
-
         
         try {
             if(getClass().isAnnotationPresent(Window.class)) {
@@ -75,7 +77,13 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         }
 
         if (getClass().isAnnotationPresent(UnlimitFPS.class)) {
-            JOptionPane.showMessageDialog(null, "WARNING: This is a debug feature only. Using this anotation can result in unstable performance.", "Warning", JOptionPane.WARNING_MESSAGE);
+            if (getClass().getAnnotation(UnlimitFPS.class).showMessage()) {                
+                JOptionPane.showMessageDialog(
+                    null, 
+                    "WARNING: This is a debug feature only. Using this anotation can result in unstable performance.", 
+                    "Warning", JOptionPane.WARNING_MESSAGE
+                );
+            } 
             limited = false;
         }
 
@@ -130,13 +138,13 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
                 }
     
                 if (render) {
-                    update((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND);
+                    update(((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND) * 10);
                     repaint();
                     frames++;
                     lastTimeRendered = System.nanoTime();
                 }
             } else {
-                update((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND);
+                update(((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND) * 10);
                 repaint();
                 frames++;
                 lastTimeRendered = System.nanoTime();
