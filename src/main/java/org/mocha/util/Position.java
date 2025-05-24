@@ -2,18 +2,23 @@ package org.mocha.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Position {
-    private double x;
-    private double y;
-    private Position relative;
+    private double x = 0;
+    private double y = 0;
+    private Position relative = null;
+
+    public static Position of(double x, double y) {
+        return new Position(x, y);
+    }
 
     public Position(double x, double y) {
         this.x = x;
         this.y = y;
-        relative = null;
     }
 
     public void translate(Vector2 trans) {

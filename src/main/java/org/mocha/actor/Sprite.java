@@ -22,6 +22,6 @@ public class Sprite extends Actor {
 
     @Override
     public void draw(Graphics2D g2) {
-        GraphicsUtil.drawRotatedImage(sprite, getX(), getY(), rotation, g2);
+        GraphicsUtil.drawRotatedImage(sprite, getX(), getY(), rotation, scale, anchor, g2);
     }
 }

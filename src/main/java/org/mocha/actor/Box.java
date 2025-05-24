@@ -33,7 +33,7 @@ public class Box extends Actor {
     public final void innerDraw(Graphics2D g2) {
         if (getClass().isAnnotationPresent(ShowHitbox.class)) {
             g2.setColor(debugColor);
-            GraphicsUtil.drawRotatedRect(getX(), getY(), width, height, rotation, g2);
+            GraphicsUtil.drawRotatedRect(getX(), getY(), (int) Math.round(width * scale.getX()), (int) Math.round(height * scale.getY()), rotation, anchor, g2);
         }
         draw(g2);
     }

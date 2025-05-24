@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Vector2 {
-    private double x;
-    private double y;
+    private double x = 0;
+    private double y = 0;
 
     public static Vector2 of(Position pos) {
         return new Vector2(pos.getX(), pos.getY());

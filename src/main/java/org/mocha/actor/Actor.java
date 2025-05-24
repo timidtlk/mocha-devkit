@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mocha.enums.AnchorPoint;
 import org.mocha.interfaces.IInnerLogic;
 import org.mocha.util.Mathf;
 import org.mocha.util.Position;
@@ -20,24 +21,23 @@ public class Actor implements IInnerLogic {
     protected Vector2 velocity;
 
     protected double rotation;
+    protected Vector2 scale;
+    protected AnchorPoint anchor;
 
     protected List<Actor> children;
     protected Actor parent;
 
     public Actor() {
-        position = new Position(0, 0);
-        localPosition = new Position(0, 0);
-        velocity = new Vector2(0, 0);
-        rotation = 0;
-        children = new ArrayList<>();
-        parent = null;
+        this(0, 0);
     }
     
     public Actor(double x, double y) {
         position = new Position(x, y);
-        localPosition = new Position(0, 0);
-        velocity = new Vector2(0, 0);
+        localPosition = new Position();
+        velocity = new Vector2();
         rotation = 0;
+        scale = new Vector2(1, 1);
+        anchor = AnchorPoint.TOP_LEFT;
         children = new ArrayList<>();
         parent = null;
     }
@@ -74,6 +74,7 @@ public class Actor implements IInnerLogic {
     public void addChildren(Actor agent) {
         children.add(agent);
         agent.setParent(this);
+        agent.setAnchor(anchor);
     }
 
     public void removeChildren(Actor agent) {
@@ -120,6 +121,7 @@ public class Actor implements IInnerLogic {
         }
         update(deltaTime);
     }
+
     @Override
     public void update(double deltaTime) {}
 

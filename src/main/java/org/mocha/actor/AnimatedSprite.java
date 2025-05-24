@@ -28,6 +28,6 @@ public class AnimatedSprite extends Actor {
     @Override
     public void draw(Graphics2D g2) {
         var image = animationManager.getActualSprite();
-        GraphicsUtil.drawRotatedImage(image, getX(), getY(), rotation, g2);
+        GraphicsUtil.drawRotatedImage(image, getX(), getY(), rotation, scale, anchor, g2);
     }
 }

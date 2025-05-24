@@ -11,6 +11,7 @@ import org.mocha.animation.Animation;
 import org.mocha.animation.AnimationManager;
 import org.mocha.animation.SpriteSheet;
 import org.mocha.annotations.ShowHitbox;
+import org.mocha.enums.AnchorPoint;
 import org.mocha.inputs.InputManager;
 
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class Player extends Box {
         this.input = input;
         speed = 30;
         debugColor = new Color(255, 0, 0, 50);
+        anchor = AnchorPoint.MIDDLE_CENTER;
 
         SpriteSheet spriteSheet = new SpriteSheet("sprites/bosta.png", 32, 32);
 
@@ -59,7 +61,7 @@ public class Player extends Box {
         velocity.fastNormalize();
         velocity.multiply(speed);
 
-        // rotate(Math.toRadians(2));
+        rotate(Math.toRadians(30 * deltaTime));
     }
 
     @Override
