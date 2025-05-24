@@ -16,17 +16,17 @@ public enum AnchorPoint {
     BOTTOM_RIGHT(1, 1);
 
     @Getter
-    private final Position POS;
+    private final Position pos;
 
     private AnchorPoint(double x, double y) {
-        POS = Position.of(x, y);
+        pos = Position.of(x, y);
     }
 
     public double getX() {
-        return POS.getX();
+        return pos.getX();
     }
 
     public double getY() {
-        return POS.getY();
+        return pos.getY();
     }
 }

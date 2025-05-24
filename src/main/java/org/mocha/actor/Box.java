@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Box extends Actor {
-    protected int width;
-    protected int height;
+    protected int width = 0;
+    protected int height = 0;
     protected Rectangle hitbox;
-    protected Color debugColor;
+    protected Color debugColor = Color.RED;
 
     public Box(double x, double y, int width, int height) {
         super(x, y);

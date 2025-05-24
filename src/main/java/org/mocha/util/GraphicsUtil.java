@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import org.mocha.enums.AnchorPoint;
 
 public class GraphicsUtil {
+
     public static void drawRotatedImage(BufferedImage image, double x, double y, double rotation, Vector2 scale, AnchorPoint anchor, Graphics2D g2) {
         int imgWidth = (int) Math.round(image.getWidth() * scale.getX());
         int imgHeight = (int) Math.round(image.getHeight() * scale.getY());

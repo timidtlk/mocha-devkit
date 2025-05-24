@@ -2,11 +2,11 @@ package demo;
 
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 
 import org.mocha.Application;
 import org.mocha.actor.Sprite;
 import org.mocha.annotations.Window;
+import org.mocha.util.Resources;
 
 @Window(width = 640, height = 480, title = "Test", defaultFps = 60)
 public class Main extends Application {
@@ -18,11 +18,11 @@ public class Main extends Application {
         input.addAction("left", KeyEvent.VK_LEFT);
         input.addAction("right", KeyEvent.VK_RIGHT);
         
-        player = new Player(16, 16, input);
+        player = new Player(16, 16, input, sound);
         scene.addActor(player);
         Sprite spr = null;
         try {
-            BufferedImage teste = ImageIO.read(getClass().getClassLoader().getResource("sprites/bosta.png"));
+            BufferedImage teste = Resources.getImage("sprites/bosta.png");
             spr = new Sprite(50, 50, teste);
         } catch (Exception e) {
             e.printStackTrace();

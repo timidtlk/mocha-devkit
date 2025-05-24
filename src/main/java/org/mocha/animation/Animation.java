@@ -18,6 +18,10 @@ public class Animation {
 
     private List<Frame> frames = new ArrayList<Frame>();
 
+    public Animation(SpriteSheet spriteSheet, double frameDelay) {
+        this(spriteSheet.getSplittedSpriteSheet(), frameDelay);
+    }
+
     public Animation(BufferedImage[] frames, double frameDelay) {
         this.frameDelay = frameDelay;
         this.stopped = true;
@@ -31,7 +35,6 @@ public class Animation {
         this.currentFrame = 0;
         this.animationDirection = 1;
         this.totalFrames = this.frames.size();
-
     }
 
     public void start() {
