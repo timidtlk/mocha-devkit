@@ -5,11 +5,10 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
-
-import org.mocha.ThreadMan;
 
 import lombok.Data;
 
@@ -22,40 +21,34 @@ public class Sound implements LineListener {
     private String name;
     private long timming = 0;
     private boolean isPlaying = false;
+    private FloatControl gainControl;
 
     public Sound(AudioInputStream audioStream, String name) throws LineUnavailableException {
-        this.audioStream = audioStream;
-        this.format = audioStream.getFormat();
-        this.info = new DataLine.Info(Clip.class, format);
-        this.audioClip = (Clip) AudioSystem.getLine(info);
-        this.audioClip.addLineListener(this);
         this.name = name;
+        this.audioStream = audioStream;
+        this.audioClip = AudioSystem.getClip();
+        this.audioClip.addLineListener(this);
+
+        try {
+            audioClip.open(audioStream); // pesado
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.gainControl = (FloatControl) this.audioClip.getControl(FloatControl.Type.MASTER_GAIN);
     }
 
     public void play() {
         isPlaying = true;
-        ThreadMan.execute(() -> {
-            synchronized(audioClip) {
-                if (!audioClip.isOpen()) {
-                    try {
-                        audioClip.open(audioStream); // pesado
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                audioClip.setMicrosecondPosition(timming);
-                audioClip.start();
-            }
-        });
+        audioClip.setMicrosecondPosition(timming);
+        audioClip.start();
     }
 
     @Override
     public void update(LineEvent e) {
         if (e.getType() == LineEvent.Type.STOP) {
-            audioClip.close();
             isPlaying = false;
-        } else if (e.getType() == LineEvent.Type.CLOSE) {
-            isPlaying = false;
+            timming = 0;
         }
     }
 
@@ -64,12 +57,28 @@ public class Sound implements LineListener {
     }
 
     public void pause() {
+        var temp = audioClip.getMicrosecondPosition();
         audioClip.stop();
-        timming = audioClip.getMicrosecondPosition();
+        timming = temp;
     }
 
     public void stop() {
-        timming = 0;
-        audioClip.close();
+        audioClip.stop();
+    }
+
+    public float getVolumeLinear() {    
+        return (float) Math.pow(10f, gainControl.getValue() / 20f);
+    }
+
+    public void setVolumeLinear(float linearValue) {
+        gainControl.setValue(20f * (float) Math.log10(linearValue));
+    }
+
+    public float getVolumeDB() {    
+        return gainControl.getValue();
+    }
+
+    public void setVolumeDB(float dbValue) {
+        gainControl.setValue(dbValue);
     }
 }

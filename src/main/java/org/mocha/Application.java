@@ -16,7 +16,6 @@ import org.mocha.inputs.InputManager;
 import org.mocha.inputs.KeyHandler;
 import org.mocha.inputs.MouseHandler;
 import org.mocha.interfaces.ILogic;
-import org.mocha.sound.SoundManager;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 
@@ -42,7 +41,6 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
 
     private boolean limited = true;
 
-    protected SoundManager sound;
     protected InputManager input;
     protected SceneManager scenes;
     protected Scene scene;
@@ -55,7 +53,6 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         FlatDarculaLaf.setup();
 
         scene = new Scene();
-        sound = new SoundManager();
         input = new InputManager();
         scenes = new SceneManager(scene);
         keyH = new KeyHandler(input);

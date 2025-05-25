@@ -23,17 +23,18 @@ import lombok.Setter;
 public class Player extends Box {
     protected AnimatedSprite sprite;
     private InputManager input;
-    private SoundManager sound;
+    private SoundManager sound = new SoundManager();
 
     private int speed;
 
-    public Player(double x, double y, InputManager input, SoundManager sound) {
+    public Player(double x, double y, InputManager input) {
         super(x, y, 32, 32);
         this.input = input;
-        this.sound = sound;
         speed = 30;
         debugColor = new Color(255, 0, 0, 50);
         anchor = AnchorPoint.MIDDLE_CENTER;
+
+        sound.setVolumeLinear(0.1f);
 
         SpriteSheet spriteSheet = null;
         try {
@@ -54,9 +55,9 @@ public class Player extends Box {
     @Override
     public void update(double deltaTime) {
         if (input.getInputStatus("right") == 1) {
-            sound.play("sounds/applause.wav");
+            sound.play("sounds/blip.wav");
         } else if (input.getInputStatus("left") == 1) {
-            sound.pause("sounds/applause.wav");
+            sound.pause("sounds/blip.wav");
         }
 
         sprite.innerUpdate(deltaTime);

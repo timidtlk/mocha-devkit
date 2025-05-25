@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import org.json.JSONObject;
 import org.mocha.sound.Sound;
 
 public final class Resources {
@@ -31,6 +33,17 @@ public final class Resources {
                 return null;
             }
         }
+    }
+
+    public static String getString(String name) throws IOException {
+        var scan = new Scanner(getLocation(name).openStream());
+        var txt = scan.useDelimiter("\\A").next();
+        scan.close();
+        return txt;
+    }
+
+    public static JSONObject getJSONObject(String name) throws IOException {
+        return new JSONObject(getString(name));
     }
 
     public static BufferedImage getImage(String name) throws IOException {

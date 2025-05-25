@@ -18,7 +18,7 @@ public class Main extends Application {
         input.addAction("left", KeyEvent.VK_LEFT);
         input.addAction("right", KeyEvent.VK_RIGHT);
         
-        player = new Player(16, 16, input, sound);
+        player = new Player(16, 16, input);
         scene.addActor(player);
         Sprite spr = null;
         try {
