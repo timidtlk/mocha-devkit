@@ -38,6 +38,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
 
     private int fps;
     private float frameTime;
+    private float frameDuration;
 
     private boolean limited = true;
 
@@ -87,7 +88,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
             limited = false;
         }
 
-        frameTime = 1.0f / FRAMERATE;
+        frameDuration = 1.0f / FRAMERATE;
     }
 
     /**
@@ -125,13 +126,13 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
             frameCounter += deltaTime;
 
             if (limited) {
-                while (unprocessedTime > frameTime) {
+                while (unprocessedTime > frameDuration) {
                     render = true;
-                    unprocessedTime -= frameTime;
+                    unprocessedTime -= frameDuration;
     
                     if (frameCounter >= NANOSECOND) {
                         fps = frames;
-                        frame.setTitle(title + " | FPS: " + fps);
+                        frame.setTitle(String.format("%s | FPS: %d | Frametime (ms): %.2fms", title, fps, frameTime));
                         frames = 0;
                         frameCounter = 0;
                     }
@@ -140,22 +141,26 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
                 if (render) {
                     update(((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND) * 10);
                     repaint();
+                    frameTime = (System.nanoTime() - lastTimeRendered) / 1000000f;
                     frames++;
                     lastTimeRendered = System.nanoTime();
                 }
             } else {
                 update(((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND) * 10);
                 repaint();
+                frameTime = (System.nanoTime() - lastTimeRendered) / 1000000f;
                 frames++;
                 lastTimeRendered = System.nanoTime();
 
                 if (frameCounter >= NANOSECOND) {
                     fps = frames;
-                    frame.setTitle(title + " | FPS: " + fps);
+                    frame.setTitle(String.format("%s | FPS: %d | Frametime (ms): %.2fms", title, fps, frameTime));
                     frames = 0;
                     frameCounter = 0;
                 }
             }
+
+            
         }
     }
 

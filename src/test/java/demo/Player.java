@@ -54,11 +54,13 @@ public class Player extends Box {
 
     @Override
     public void update(double deltaTime) {
+        /*
         if (input.getInputStatus("right") == 1) {
             sound.play("sounds/blip.wav");
         } else if (input.getInputStatus("left") == 1) {
             sound.pause("sounds/blip.wav");
         }
+            */
 
         sprite.innerUpdate(deltaTime);
 
