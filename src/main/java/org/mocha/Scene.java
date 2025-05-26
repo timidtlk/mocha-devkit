@@ -3,6 +3,7 @@ package org.mocha;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import org.mocha.actor.Actor;
 import org.mocha.interfaces.ILogic;
@@ -42,9 +43,26 @@ public class Scene implements ILogic {
 
     @Override
     public void update(double deltaTime) {
+        var futures = new ArrayList<Future<Boolean>>();
+
         actors.forEach((actor) -> {
-            actor.innerUpdate(deltaTime);
+            var f = ThreadMan.submit(() -> {
+                actor.innerUpdate(deltaTime);
+                return true;
+            });
+            futures.add(f);            
         });
+
+        while (futures.size() > 0) {
+            for (int i = futures.size() - 1; i >= 0; i--) {
+                var f = futures.get(i);
+
+                if (f.isDone()) {
+                    futures.remove(i);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
