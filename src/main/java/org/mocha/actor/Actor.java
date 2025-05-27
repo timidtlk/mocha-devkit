@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.mocha.enums.AnchorPoint;
 import org.mocha.interfaces.IInnerLogic;
-import org.mocha.util.Mathf;
-import org.mocha.util.Position;
-import org.mocha.util.Vector2;
+import org.mocha.util.math.Mathf;
+import org.mocha.util.math.Position;
+import org.mocha.util.math.Vector2;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

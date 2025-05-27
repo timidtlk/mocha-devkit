@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import org.mocha.enums.AnchorPoint;
+import org.mocha.util.math.Vector2;
 
 public class GraphicsUtil {
 

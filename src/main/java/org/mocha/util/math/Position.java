@@ -1,4 +1,4 @@
-package org.mocha.util;
+package org.mocha.util.math;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

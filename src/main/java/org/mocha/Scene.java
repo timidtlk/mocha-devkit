@@ -3,10 +3,10 @@ package org.mocha;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Future;
 
 import org.mocha.actor.Actor;
 import org.mocha.interfaces.ILogic;
+import org.mocha.util.Counter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,24 +43,22 @@ public class Scene implements ILogic {
 
     @Override
     public void update(double deltaTime) {
-        var futures = new ArrayList<Future<Boolean>>();
+        final var count = new Counter(actors.size());
+        final var oThread = Thread.currentThread();
 
-        actors.forEach((actor) -> {
-            var f = ThreadMan.submit(() -> {
+        actors.forEach(actor -> {
+            ThreadMan.execute(() -> {
                 actor.innerUpdate(deltaTime);
-                return true;
+                count.decrement();
+                oThread.notify();
             });
-            futures.add(f);            
         });
 
-        while (futures.size() > 0) {
-            for (int i = futures.size() - 1; i >= 0; i--) {
-                var f = futures.get(i);
-
-                if (f.isDone()) {
-                    futures.remove(i);
-                    break;
-                }
+        while (count.get() > 0) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

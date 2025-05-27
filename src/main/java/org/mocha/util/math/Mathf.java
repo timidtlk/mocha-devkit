@@ -1,4 +1,4 @@
-package org.mocha.util;
+package org.mocha.util.math;
 
 public class Mathf {
 

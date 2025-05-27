@@ -1,6 +1,6 @@
 package org.mocha.enums;
 
-import org.mocha.util.Position;
+import org.mocha.util.math.Position;
 
 import lombok.Getter;
 
