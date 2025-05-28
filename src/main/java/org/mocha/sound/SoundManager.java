@@ -3,8 +3,9 @@ package org.mocha.sound;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
-import org.mocha.util.Resources;
+import org.mocha.util.platform.Resources;
 
 public class SoundManager {
     private static final ArrayList<WeakReference<SoundManager>> INSTANCES = new ArrayList<>();
@@ -17,7 +18,7 @@ public class SoundManager {
         INSTANCES.add(new WeakReference<>(this));
     }
 
-    public Sound load(String name) {
+    public Optional<Sound> load(String name) {
         var sound = sounds.get(name);
         if (sound == null) {
             try {
@@ -26,20 +27,19 @@ public class SoundManager {
                 sounds.put(name, sound);
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
             }
         }
-        return sound;
+        return Optional.ofNullable(sound);
     }
 
     public void play(String name) {
         var sound = load(name);
-        sound.play();
+        sound.ifPresent(s -> s.play());
     }
 
     public void playIfNotPlaying(String name) {
-        var sound = load(name);
-        if (!sound.isPlaying()) sound.play();
+        var sound = load(name).filter(s -> !s.isPlaying());
+        sound.ifPresent(s -> s.play());
     }
 
     public void stop(String name) {

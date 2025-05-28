@@ -43,8 +43,8 @@ public class Player extends Box {
             e.printStackTrace();
         }
 
-        Animation animation = new Animation(spriteSheet, 1);
-        HashMap<String, Animation> animations = new HashMap<>();
+        var animation = new Animation(spriteSheet, 1);
+        var animations = new HashMap<String, Animation>();
         animations.put("unique", animation);
 
         this.sprite = new AnimatedSprite(getX(), getY(), new AnimationManager("unique", animations));
@@ -54,13 +54,11 @@ public class Player extends Box {
 
     @Override
     public void update(double deltaTime) {
-        /*
         if (input.getInputStatus("right") == 1) {
             sound.play("sounds/blip.wav");
         } else if (input.getInputStatus("left") == 1) {
             sound.pause("sounds/blip.wav");
         }
-            */
 
         sprite.innerUpdate(deltaTime);
 

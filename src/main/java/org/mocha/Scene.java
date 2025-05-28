@@ -50,13 +50,18 @@ public class Scene implements ILogic {
             ThreadMan.execute(() -> {
                 actor.innerUpdate(deltaTime);
                 count.decrement();
-                oThread.notify();
+
+                synchronized (oThread) {
+                    oThread.notify();
+                }
             });
         });
 
         while (count.get() > 0) {
             try {
-                wait();
+                synchronized (oThread) {
+                    oThread.wait();
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

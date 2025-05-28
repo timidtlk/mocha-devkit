@@ -1,8 +1,9 @@
-package org.mocha.util;
+package org.mocha.util.platform;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -51,6 +52,18 @@ public final class Resources {
     }
 
     public static Sound getSound(String name) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        return new Sound(AudioSystem.getAudioInputStream(getLocation(name)), name);
+        var clazz = PlatformMan.getImpl(Sound.class);
+        Sound instance = null;
+        try {
+            instance = clazz.getConstructor(String.class).newInstance(name);
+            instance.open(AudioSystem.getAudioInputStream(getLocation(name)));
+
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException | SecurityException | InvocationTargetException  | IllegalArgumentException | IllegalAccessException e) {
+            //this shouldn't happen
+            e.printStackTrace();
+        }
+        return instance;
     }
 }

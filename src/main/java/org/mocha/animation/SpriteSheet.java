@@ -3,7 +3,7 @@ package org.mocha.animation;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import org.mocha.util.Resources;
+import org.mocha.util.platform.Resources;
 
 public class SpriteSheet {
     private BufferedImage spriteSheet;
