@@ -1,6 +1,7 @@
 package demo;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import org.mocha.Application;
@@ -17,6 +18,7 @@ public class Main extends Application {
         input.addAction("down", KeyEvent.VK_DOWN);
         input.addAction("left", KeyEvent.VK_LEFT);
         input.addAction("right", KeyEvent.VK_RIGHT);
+        input.addAction("mouse3", MouseEvent.BUTTON3);
         
         player = new Player(16, 16, input);
         scene.addActor(player);

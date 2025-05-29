@@ -20,7 +20,7 @@ public class InputAction {
         inputs.add(action);
     }
 
-    public void addAction(int action) {
+    public void addInput(int action) {
         inputs.add(action);
     }
 }

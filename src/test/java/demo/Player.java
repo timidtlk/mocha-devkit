@@ -34,8 +34,6 @@ public class Player extends Box {
         debugColor = new Color(255, 0, 0, 50);
         anchor = AnchorPoint.MIDDLE_CENTER;
 
-        sound.setVolumeLinear(0.1f);
-
         SpriteSheet spriteSheet = null;
         try {
             spriteSheet = new SpriteSheet("sprites/bosta.png", 32, 32);
@@ -53,12 +51,18 @@ public class Player extends Box {
     }
 
     @Override
+    public void start() {
+        sound.setVolumeLinear(0.1f);
+        sound.load("sounds/blip.wav");
+    }
+
+    @Override
     public void update(double deltaTime) {
-        if (input.getInputStatus("right") == 1) {
+        if (input.getInputStatus("mouse3") == 1) {
             sound.play("sounds/blip.wav");
-        } else if (input.getInputStatus("left") == 1) {
-            sound.pause("sounds/blip.wav");
-        }
+        }// else if (input.getInputStatus("left") == 1) {
+         //   sound.pause("sounds/blip.wav");
+        //}
 
         sprite.innerUpdate(deltaTime);
 
