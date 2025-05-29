@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.mocha.annotations.Multithreading;
 import org.mocha.annotations.UnlimitFPS;
 import org.mocha.annotations.Window;
 import org.mocha.exceptions.WindowNotDefinedException;
@@ -23,6 +24,8 @@ import com.formdev.flatlaf.FlatDarculaLaf;
  * The main class of your game. You should extend this class and start making your game.
  */
 public abstract class Application extends JPanel implements Runnable, ILogic {
+    private static boolean multithreading = false;
+
     private Thread thread;
     private JFrame frame;
 
@@ -60,7 +63,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         mouseH = new MouseHandler(input);
         
         try {
-            if(getClass().isAnnotationPresent(Window.class)) {
+            if (getClass().isAnnotationPresent(Window.class)) {
                 Window window = getClass().getAnnotation(Window.class);
                 
                 screenHeight = window.height();
@@ -75,6 +78,10 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
+        }
+
+        if (getClass().isAnnotationPresent(Multithreading.class)) {
+            multithreading = true;
         }
 
         if (getClass().isAnnotationPresent(UnlimitFPS.class)) {
@@ -239,5 +246,9 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         
         // Dispose of the graphics context
         g2.dispose();
+    }
+
+    public static boolean getMultithreading() {
+        return multithreading;
     }
 }

@@ -6,10 +6,12 @@ import java.awt.image.BufferedImage;
 
 import org.mocha.Application;
 import org.mocha.actor.Sprite;
+import org.mocha.annotations.Multithreading;
 import org.mocha.annotations.Window;
 import org.mocha.util.platform.Resources;
 
 @Window(width = 640, height = 480, title = "Test")
+@Multithreading
 public class Main extends Application {
     Player player;
 

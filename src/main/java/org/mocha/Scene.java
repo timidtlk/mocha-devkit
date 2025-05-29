@@ -43,6 +43,13 @@ public class Scene implements ILogic {
 
     @Override
     public void update(double deltaTime) {
+        if (!Application.getMultithreading()) {
+            actors.forEach(actor -> {
+                actor.innerUpdate(deltaTime);
+            });
+            return;
+        }
+
         final var count = new Counter(actors.size());
         final var oThread = Thread.currentThread();
 
