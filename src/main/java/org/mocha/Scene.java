@@ -57,13 +57,13 @@ public class Scene implements ILogic {
             });
         });
 
-        while (count.get() > 0) {
-            try {
-                synchronized (oThread) {
+        synchronized (oThread) {
+            while (count.get() > 0) {
+                try {
                     oThread.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
