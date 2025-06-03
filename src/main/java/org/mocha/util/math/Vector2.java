@@ -7,26 +7,65 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Vector2 {
+public class Vector2 implements Cloneable {
     private double x = 0;
     private double y = 0;
 
-    public static Vector2 of(Position pos) {
-        return new Vector2(pos.getX(), pos.getY());
+    public Vector2 clone() {
+        try {
+            return (Vector2) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // this shouldn't happen
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public void set(double x, double y) {
-        this.x = x;
-        this.y = y;
+    public Vector2 sum(Vector2 vec) {
+        this.x += vec.x;
+        this.y += vec.y;
+
+        return this;
+    }
+
+    public Vector2 sum(double x, double y) {
+        this.x += x;
+        this.y += y;
+
+        return this;
+    }
+
+    public Vector2 translate(Vector2 vec) {
+        return sum(vec);
+    }
+
+    public Vector2 translate(double x, double y) {
+        return sum(x, y);
+    }
+
+    public Vector2 subtract(Vector2 vec) {
+        this.x -= vec.x;
+        this.y -= vec.y;
+
+        return this;
+    }
+
+    public Vector2 subtract(double x, double y) {
+        this.x -= x;
+        this.y -= y;
+
+        return this;
+    }
+
+    public Vector2 multiply(double n) {
+        x *= n;
+        y *= n;
+
+        return this;
     }
 
     public double getLength() {
         return Math.sqrt(x * x + y * y);
-    }
-
-    public void multiply(double n) {
-        x *= n;
-        y *= n;
     }
 
     /**
@@ -79,5 +118,10 @@ public class Vector2 {
 
     public double dotProduct(Vector2 v) {
         return this.x * v.x + this.y * v.y;
+    }
+
+    public void set(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 }

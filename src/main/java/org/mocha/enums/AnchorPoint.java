@@ -1,6 +1,6 @@
 package org.mocha.enums;
 
-import org.mocha.util.math.Position;
+import org.mocha.util.math.Vector2;
 
 import lombok.Getter;
 
@@ -16,10 +16,10 @@ public enum AnchorPoint {
     BOTTOM_RIGHT(1, 1);
 
     @Getter
-    private final Position pos;
+    private final Vector2 pos;
 
     private AnchorPoint(double x, double y) {
-        pos = Position.of(x, y);
+        pos = new Vector2(x, y);
     }
 
     public double getX() {

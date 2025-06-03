@@ -7,7 +7,6 @@ import java.util.List;
 import org.mocha.enums.AnchorPoint;
 import org.mocha.interfaces.IInnerLogic;
 import org.mocha.util.math.Mathf;
-import org.mocha.util.math.Position;
 import org.mocha.util.math.Vector2;
 
 import lombok.AllArgsConstructor;
@@ -16,8 +15,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Actor implements IInnerLogic {
-    protected Position position;
-    protected Position localPosition;
+    protected Vector2 position;
+    protected Vector2 localPosition;
     protected Vector2 velocity;
 
     protected double rotation;
@@ -32,8 +31,8 @@ public class Actor implements IInnerLogic {
     }
     
     public Actor(double x, double y) {
-        position = new Position(x, y);
-        localPosition = new Position();
+        position = new Vector2(x, y);
+        localPosition = new Vector2();
         velocity = new Vector2();
         rotation = 0;
         scale = new Vector2(1, 1);
@@ -59,10 +58,10 @@ public class Actor implements IInnerLogic {
         position.setY(y);
     }
 
-    public void rotateTo(Position position, double factor) {
+    public void rotateTo(Vector2 position, double factor) {
         position.subtract(this.position);
 
-        var n = Vector2.of(position).fastNormalize();
+        var n = position.fastNormalized();
 
         rotation = Mathf.lerpAngle(rotation, Math.atan2(n.getY(), n.getX()), factor);
     }
