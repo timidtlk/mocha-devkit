@@ -46,3 +46,14 @@ jobs:
         run: |
           echo "<settings><servers><server><id>github</id><username>timidtlk</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
           mvn deploy
+
+      - name: Publish release files
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: v0.1.0-alpha
+          prerelease: true
+          title: 0.1a
+          files: |
+            .github/packr/build/linux64/linux64.zip
+            .github/packr/build/windows64/windows64.zip
