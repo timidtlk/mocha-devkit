@@ -124,4 +124,33 @@ public class Vector2 implements Cloneable {
         this.x = x;
         this.y = y;
     }
+
+    public void set(Vector2 vec) {
+        this.x = vec.getX();
+        this.y = vec.getY();
+    }
+
+    public int getRoundX() {
+        return (int) Math.round(getX());
+    }
+
+    public int getRoundY() {
+        return (int) Math.round(getY());
+    }
+
+    public int getFloorX() {
+        return (int) Math.floor(getX());
+    }
+
+    public int getFloorY() {
+        return (int) Math.floor(getY());
+    }
+
+    public int getCeilX() {
+        return (int) Math.ceil(getX());
+    }
+
+    public int getCeilY() {
+        return (int) Math.ceil(getY());
+    }
 }

@@ -115,7 +115,9 @@ public class Actor implements IInnerLogic {
         velocity.setY(0);
         
         if (hasParent()) {
-            this.position = parent.position.sum(localPosition);
+            this.position.set(parent.position);
+            this.position.sum(localPosition);
+
             this.rotation = parent.rotation;
         }
         update(deltaTime);

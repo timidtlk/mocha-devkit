@@ -7,19 +7,17 @@ import java.awt.Rectangle;
 import org.mocha.annotations.ShowHitbox;
 import org.mocha.util.GraphicsUtil;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
 public class Box extends Actor {
     protected int width = 0;
     protected int height = 0;
-    protected Rectangle hitbox;
+    protected Rectangle hitbox = new Rectangle();
     protected Color debugColor = Color.RED;
 
     public Box(double x, double y, int width, int height) {
@@ -39,6 +37,11 @@ public class Box extends Actor {
     }
 
     public boolean checkCollision(Box box) {
-        return hitbox.intersects(box.getHitbox());
+        return getHitbox().intersects(box.getHitbox());
+    }
+
+    public Rectangle getHitbox() {
+        hitbox.setBounds(position.getFloorX(), position.getFloorY(), getWidth(), getHeight());
+        return hitbox;
     }
 }
