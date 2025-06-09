@@ -3,9 +3,11 @@ package org.mocha.actor;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.mocha.enums.AnchorPoint;
 import org.mocha.interfaces.IInnerLogic;
+import org.mocha.util.FutureHandler;
 import org.mocha.util.math.Mathf;
 import org.mocha.util.math.Vector2;
 
@@ -24,6 +26,7 @@ public class Actor implements IInnerLogic {
     protected AnchorPoint anchor;
 
     protected List<Actor> children;
+    protected List<FutureHandler<?>> futures;
     protected Actor parent;
 
     public Actor() {
@@ -38,6 +41,7 @@ public class Actor implements IInnerLogic {
         scale = new Vector2(1, 1);
         anchor = AnchorPoint.TOP_LEFT;
         children = new ArrayList<>();
+        futures = new ArrayList<>();
         parent = null;
     }
 
@@ -106,6 +110,15 @@ public class Actor implements IInnerLogic {
     }
 
     @Override
+    public void innerStart() {
+        for (int i = children.size() - 1; i >= 0; i--) {
+            children.get(i).innerStart();
+        }
+
+        start();
+    }
+
+    @Override
     public void start() {}
 
     @Override
@@ -120,11 +133,40 @@ public class Actor implements IInnerLogic {
 
             this.rotation = parent.rotation;
         }
+
+        for (int i = children.size() - 1; i >= 0; i--) {
+            children.get(i).innerUpdate(deltaTime);
+        }
+
         update(deltaTime);
+
+        for (int i = futures.size() - 1; i >= 0; i++) {
+            futures.get(i).call();
+            futures.remove(i);
+        }
     }
 
     @Override
     public void update(double deltaTime) {}
+
+    /**
+     * @param callable A function to be executed after the update call.
+     * @return {@link FutureHandler} A future where you can bind a consumer to be executed with the result of this call.
+     */
+    public <T> FutureHandler<T> afterUpdate(Callable<T> callable) {
+        var fh = new FutureHandler<T>(callable);
+        futures.add(fh);
+        return fh;
+    }
+
+    @Override
+    public void innerDraw(Graphics2D g2) {
+        for (int i = children.size() - 1; i >= 0; i--) {
+            children.get(i).innerDraw(g2);
+        }
+
+        draw(g2);
+    }
 
     @Override
     public void draw(Graphics2D g2) {}

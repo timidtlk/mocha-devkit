@@ -7,13 +7,27 @@ import org.mocha.util.platform.Resources;
 
 public class SpriteSheet {
     private BufferedImage spriteSheet;
-    private int xTile;
-    private int yTile;
+    private int xTileSize;
+    private int yTileSize;
+    private int xTileCount;
+    private int yTileCount;
 
-    public SpriteSheet(String path, int xTile, int yTile) throws NullPointerException, IOException {
+    public SpriteSheet(int xTileSize, int yTileSize, String path) throws NullPointerException, IOException {
         this.spriteSheet = loadSprite(path);
-        this.xTile = xTile;
-        this.yTile = yTile;
+        this.xTileSize = xTileSize;
+        this.yTileSize = yTileSize;
+
+        this.xTileCount = spriteSheet.getWidth() / xTileSize;
+        this.yTileCount = spriteSheet.getHeight() / yTileSize;
+    }
+
+    public SpriteSheet(String path, int xTileCount, int yTileCount) throws NullPointerException, IOException {
+        this.spriteSheet = loadSprite(path);
+        this.xTileCount = xTileCount;
+        this.yTileCount = yTileCount;
+
+        this.xTileSize = spriteSheet.getWidth() / xTileCount;
+        this.yTileSize = spriteSheet.getHeight() / yTileCount;
     }
 
     public BufferedImage loadSprite(String file) throws IOException, NullPointerException {
@@ -30,14 +44,12 @@ public class SpriteSheet {
     }
 
     public BufferedImage[] getSplittedSpriteSheet() {
-        int parsedW = getWidth() / xTile, parsedH = getHeight() / yTile;
-
-        BufferedImage[] image = new BufferedImage[parsedW * parsedH]; 
+        BufferedImage[] image = new BufferedImage[xTileCount * yTileCount]; 
 
         try {
             int k = 0;
-            for (int i = 0; i < parsedW; i++) {
-                for (int j = 0; j < parsedH; j++) {
+            for (int i = 0; i < xTileCount; i++) {
+                for (int j = 0; j < yTileCount; j++) {
                     image[k++] = getSprite(i, j);
                 }
             }
@@ -48,8 +60,7 @@ public class SpriteSheet {
     }
 
     public BufferedImage getSprite(int xGrid, int yGrid) throws Exception {
-
-        return this.spriteSheet.getSubimage(xGrid * xTile, yGrid * yTile, xTile, yTile);
+        return this.spriteSheet.getSubimage(xGrid * xTileSize, yGrid * yTileSize, xTileSize, yTileSize);
     }
 
     public int getWidth() {

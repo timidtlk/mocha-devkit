@@ -2,8 +2,10 @@ package org.mocha.actor;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import org.mocha.util.GraphicsUtil;
+import org.mocha.util.platform.Resources;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,6 +20,15 @@ public class Sprite extends Actor {
     public Sprite(double x, double y, @NonNull BufferedImage sprite) {
         super(x, y);
         this.sprite = sprite;
+    }
+
+    public Sprite(@NonNull String path, double x, double y) {
+        super(x, y);
+        try {
+            this.sprite = Resources.getImage(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

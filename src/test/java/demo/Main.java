@@ -10,7 +10,7 @@ import org.mocha.annotations.Multithreading;
 import org.mocha.annotations.Window;
 import org.mocha.util.platform.Resources;
 
-@Window(width = 640, height = 480, title = "Test")
+@Window(width = 640, height = 480, title = "Test", fullScreen = true)
 @Multithreading
 public class Main extends Application {
     Player player;

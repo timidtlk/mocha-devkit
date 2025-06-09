@@ -17,8 +17,11 @@ import org.mocha.inputs.InputManager;
 import org.mocha.inputs.KeyHandler;
 import org.mocha.inputs.MouseHandler;
 import org.mocha.interfaces.ILogic;
+import org.mocha.util.platform.Resources;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+
+import lombok.Getter;
 
 /**
  * The main class of your game. You should extend this class and start making your game.
@@ -29,7 +32,9 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     private Thread thread;
     private JFrame frame;
 
+    @Getter
     private int screenWidth;
+    @Getter
     private int screenHeight;
 
     private boolean blackBars;
@@ -38,6 +43,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     
     private final long NANOSECOND = 1000000000L;
     private float FRAMERATE;
+    private boolean fullScreen;
 
     private int fps;
     private float frameTime;
@@ -72,6 +78,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
                 resizable = window.resizable();
                 title = window.title();
                 FRAMERATE = window.defaultFps();
+                fullScreen = window.fullScreen();
             } else {
                 throw new WindowNotDefinedException();
             }
@@ -166,8 +173,6 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
                     frameCounter = 0;
                 }
             }
-
-            
         }
     }
 
@@ -175,6 +180,11 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(resizable);
+
+        if (fullScreen) {
+            frame.setUndecorated(true);
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
 
         thread = new Thread(this);
         thread.start();
@@ -199,6 +209,14 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     @Override
     public void draw(Graphics2D g2) {
         scene.draw(g2);
+    }
+
+    public void setIcon(String path) {
+        try {
+            frame.setIconImage(Resources.getImage(path));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

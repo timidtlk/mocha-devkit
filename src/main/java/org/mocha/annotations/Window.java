@@ -14,5 +14,6 @@ public @interface Window {
     int scale() default 1;
     boolean blackBars() default true;
     boolean resizable() default true;
+    boolean fullScreen() default false;
     String title() default "Powered By MochaDevKit";
 }
