@@ -38,6 +38,7 @@ public class Actor implements IInnerLogic, Comparable<Actor> {
         position = new Vector2(x, y);
         localPosition = new Vector2();
         velocity = new Vector2();
+        z = 0;
         rotation = 0;
         scale = new Vector2(1, 1);
         anchor = AnchorPoint.TOP_LEFT;
@@ -175,15 +176,20 @@ public class Actor implements IInnerLogic, Comparable<Actor> {
 
     @Override
     public final void innerDraw(Graphics2D g2) {
-        var first = getZ() <= children.get(0).getZ();
-
-        if (first) draw(g2);
+        var drawn = false;
 
         for (int i = children.size() - 1; i >= 0; i--) {
-            children.get(i).innerDraw(g2);
+            var actual = children.get(i);
+
+            if (!drawn && getZ() >= actual.getZ()) {
+                draw(g2);
+                drawn = true;
+            }
+
+            actual.innerDraw(g2);
         }
 
-        if (!first) draw(g2);
+        if (!drawn) draw(g2);
     }
 
     @Override

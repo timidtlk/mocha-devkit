@@ -41,8 +41,7 @@ public class Player extends Box {
 
         var animation = new Animation(spriteSheet, 1);
 
-        this.sprite = new AnimatedSprite(getX(), getY(), AnimationManager.singleAnimationManager(animation));
-
+        sprite = new AnimatedSprite(getX(), getY(), AnimationManager.singleAnimationManager(animation));
         addChildren(sprite);
     }
 
@@ -59,8 +58,6 @@ public class Player extends Box {
         }// else if (input.getInputStatus("left") == 1) {
          //   sound.pause("sounds/blip.wav");
         //}
-
-        sprite.innerUpdate(deltaTime);
 
         velocity.set(
             input.getInputStatus("right") - input.getInputStatus("left"),

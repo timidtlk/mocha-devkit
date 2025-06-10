@@ -2,7 +2,6 @@ package demo;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 import org.mocha.Application;
 import org.mocha.actor.Sprite;
@@ -26,11 +25,12 @@ public class Main extends Application {
         scene.addActor(player);
         Sprite spr = null;
         try {
-            BufferedImage teste = Resources.getImage("sprites/bosta.png");
+            var teste = Resources.getImage("sprites/bosta.png");
             spr = new Sprite(50, 50, teste);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        spr.setZ(1);
         scene.addActor(spr);
         
         init();

@@ -37,17 +37,17 @@ public class Scene implements ILogic {
 
     @Override
     public void start() {
-        actors.forEach((actor) -> {
-            actor.innerStart();
-        });
+        for (int i = actors.size() - 1; i >= 0; i--) {
+            actors.get(i).innerStart();
+        }
     }
 
     @Override
     public void update(double deltaTime) {
         if (!Application.getMultithreading()) {
-            actors.forEach(actor -> {
-                actor.innerUpdate(deltaTime);
-            });
+            for (int i = actors.size() - 1; i >= 0; i--) {
+                actors.get(i).innerUpdate(deltaTime);
+            }
             return;
         }
 
@@ -78,8 +78,8 @@ public class Scene implements ILogic {
 
     @Override
     public void draw(Graphics2D g2) {
-        actors.forEach((actor) -> {
-            actor.innerDraw(g2);
-        });
+        for (int i = actors.size() - 1; i >= 0; i--) {
+            actors.get(i).innerDraw(g2);
+        }
     }
 }
