@@ -1,8 +1,6 @@
 package demo;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.util.HashMap;
 
 import org.mocha.actor.AnimatedSprite;
 import org.mocha.actor.Box;
@@ -36,16 +34,14 @@ public class Player extends Box {
 
         SpriteSheet spriteSheet = null;
         try {
-            spriteSheet = new SpriteSheet("sprites/bosta.png", 32, 32);
+            spriteSheet = new SpriteSheet("sprites/bosta.png", 1, 1);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         var animation = new Animation(spriteSheet, 1);
-        var animations = new HashMap<String, Animation>();
-        animations.put("unique", animation);
 
-        this.sprite = new AnimatedSprite(getX(), getY(), new AnimationManager("unique", animations));
+        this.sprite = new AnimatedSprite(getX(), getY(), AnimationManager.singleAnimationManager(animation));
 
         addChildren(sprite);
     }
@@ -74,10 +70,5 @@ public class Player extends Box {
         velocity.multiply(speed);
 
         rotate(Math.toRadians(20 * deltaTime));
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        sprite.innerDraw(g2);
     }
 }

@@ -2,7 +2,6 @@ package org.mocha.actor;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.mocha.enums.AnchorPoint;
@@ -16,17 +15,18 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Actor implements IInnerLogic {
+public class Actor implements IInnerLogic, Comparable<Actor> {
     protected Vector2 position;
     protected Vector2 localPosition;
     protected Vector2 velocity;
+    protected int z;
 
     protected double rotation;
     protected Vector2 scale;
     protected AnchorPoint anchor;
 
-    protected List<Actor> children;
-    protected List<FutureHandler<?>> futures;
+    protected ArrayList<Actor> children;
+    protected ArrayList<FutureHandler<?>> futures;
     protected Actor parent;
 
     public Actor() {
@@ -78,6 +78,11 @@ public class Actor implements IInnerLogic {
         children.add(agent);
         agent.setParent(this);
         agent.setAnchor(anchor);
+        children.sort(null);
+    }
+
+    public int compareTo(Actor b) {
+        return this.getZ() - b.getZ();
     }
 
     public void removeChildren(Actor agent) {
@@ -110,12 +115,12 @@ public class Actor implements IInnerLogic {
     }
 
     @Override
-    public void innerStart() {
+    public final void innerStart() {
+        start();
+
         for (int i = children.size() - 1; i >= 0; i--) {
             children.get(i).innerStart();
         }
-
-        start();
     }
 
     @Override
@@ -134,11 +139,11 @@ public class Actor implements IInnerLogic {
             this.rotation = parent.rotation;
         }
 
+        update(deltaTime);
+
         for (int i = children.size() - 1; i >= 0; i--) {
             children.get(i).innerUpdate(deltaTime);
         }
-
-        update(deltaTime);
 
         for (int i = futures.size() - 1; i >= 0; i++) {
             futures.get(i).call();
@@ -160,12 +165,12 @@ public class Actor implements IInnerLogic {
     }
 
     @Override
-    public void innerDraw(Graphics2D g2) {
+    public final void innerDraw(Graphics2D g2) {
+        draw(g2);
+
         for (int i = children.size() - 1; i >= 0; i--) {
             children.get(i).innerDraw(g2);
         }
-
-        draw(g2);
     }
 
     @Override

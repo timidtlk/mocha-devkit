@@ -27,13 +27,15 @@ public class Box extends Actor {
         debugColor = Color.RED;
     }
 
+    /**
+     * Please consider doing a {@code super()} call when overriding this method.
+     */
     @Override
-    public final void innerDraw(Graphics2D g2) {
+    public void draw(Graphics2D g2) {
         if (getClass().isAnnotationPresent(ShowHitbox.class)) {
             g2.setColor(debugColor);
             GraphicsUtil.drawRotatedRect(getX(), getY(), (int) Math.round(width * scale.getX()), (int) Math.round(height * scale.getY()), rotation, anchor, g2);
         }
-        draw(g2);
     }
 
     public boolean checkCollision(Box box) {
