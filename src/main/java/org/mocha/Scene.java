@@ -32,6 +32,7 @@ public class Scene implements ILogic {
 
     public void addActor(Actor actor) {
         actors.add(actor);
+        actors.sort(null);
     }
 
     @Override

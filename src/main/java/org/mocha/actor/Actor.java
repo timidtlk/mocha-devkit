@@ -2,6 +2,7 @@ package org.mocha.actor;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.mocha.enums.AnchorPoint;
@@ -25,8 +26,8 @@ public class Actor implements IInnerLogic, Comparable<Actor> {
     protected Vector2 scale;
     protected AnchorPoint anchor;
 
-    protected ArrayList<Actor> children;
-    protected ArrayList<FutureHandler<?>> futures;
+    protected List<Actor> children;
+    protected List<FutureHandler<?>> futures;
     protected Actor parent;
 
     public Actor() {
@@ -114,6 +115,14 @@ public class Actor implements IInnerLogic, Comparable<Actor> {
         position.setY(y);
     }
 
+    public void setZ(int z) {
+        this.z = z;
+
+        if (hasParent()) {
+            parent.children.sort(null);
+        }
+    }
+
     @Override
     public final void innerStart() {
         start();
@@ -166,11 +175,15 @@ public class Actor implements IInnerLogic, Comparable<Actor> {
 
     @Override
     public final void innerDraw(Graphics2D g2) {
-        draw(g2);
+        var first = getZ() <= children.get(0).getZ();
+
+        if (first) draw(g2);
 
         for (int i = children.size() - 1; i >= 0; i--) {
             children.get(i).innerDraw(g2);
         }
+
+        if (!first) draw(g2);
     }
 
     @Override
