@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -29,6 +30,7 @@ import lombok.Getter;
 public abstract class Application extends JPanel implements Runnable, ILogic {
     private static boolean multithreading = false;
 
+    private Toolkit toolkit = Toolkit.getDefaultToolkit();
     private Thread thread;
     private JFrame frame;
 
@@ -158,6 +160,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
                     frameTime = (System.nanoTime() - lastTimeRendered) / 1000000f;
                     frames++;
                     lastTimeRendered = System.nanoTime();
+                    toolkit.sync();
                 }
             } else {
                 update(((System.nanoTime() - lastTimeRendered) / (double) NANOSECOND) * 10);
@@ -172,6 +175,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
                     frames = 0;
                     frameCounter = 0;
                 }
+                toolkit.sync();
             }
         }
     }
