@@ -7,7 +7,6 @@ import org.mocha.Application;
 import org.mocha.actor.Sprite;
 import org.mocha.annotations.Multithreading;
 import org.mocha.annotations.Window;
-import org.mocha.util.platform.Resources;
 
 @Window(width = 640, height = 480, title = "Test", fullScreen = true)
 @Multithreading
@@ -26,14 +25,18 @@ public class Main extends Application {
         Sprite spr = null;
         Sprite spr2 = null;
         try {
-            var teste = Resources.getImage("sprites/background-night.png");
-            spr = new Sprite(getScreenWidth(), 0, teste) {
+            spr = new Sprite("sprites/background-night.png", getScreenWidth(), 0) {
                 @Override
                 public void update(double deltaTime) {
                     this.velocity.setX(-5);
                 }
             };
-            spr2 = new Sprite(getScreenWidth()+teste.getWidth(), 0, teste) {
+            spr2 = new Sprite("sprites/background-night.png", getScreenWidth(), 0) {
+                @Override
+                public void start() {
+                    position.sum(getWidth(), 0);
+                }
+
                 @Override
                 public void update(double deltaTime) {
                     this.velocity.setX(-5);
@@ -43,8 +46,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
         spr.setZ(1);
-        scene.addActor(spr);
-        scene.addActor(spr2);
+        scene.addActors(spr, spr2);
         
         init();
     }

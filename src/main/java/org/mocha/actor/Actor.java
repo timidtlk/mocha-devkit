@@ -76,10 +76,21 @@ public class Actor implements IInnerLogic, Comparable<Actor> {
         rotation += radians;
     }
 
-    public void addChildren(Actor agent) {
+    private void addChild(Actor agent, boolean sort) {
         children.add(agent);
         agent.setParent(this);
         agent.setAnchor(anchor);
+        if (sort) children.sort(null);
+    }
+
+    public void addChild(Actor agent) {
+        addChild(agent, true);
+    }
+
+    public void addChildren(Actor... agents) {
+        for (int i = 0; i < agents.length; i++) {
+            addChild(agents[i], false);
+        }
         children.sort(null);
     }
 

@@ -42,7 +42,7 @@ public class Player extends Box {
         var animation = new Animation(spriteSheet, 1);
 
         sprite = new AnimatedSprite(getX(), getY(), AnimationManager.singleAnimationManager(animation));
-        addChildren(sprite);
+        addChild(sprite);
     }
 
     @Override

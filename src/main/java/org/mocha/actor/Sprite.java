@@ -35,4 +35,12 @@ public class Sprite extends Actor {
     public void draw(Graphics2D g2) {
         GraphicsUtil.drawRotatedImage(sprite, getX(), getY(), rotation, scale, anchor, g2);
     }
+
+    public int getWidth() {
+        return sprite.getWidth();
+    }
+
+    public int getHeight() {
+        return sprite.getHeight();
+    }
 }

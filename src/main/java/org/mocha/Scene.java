@@ -30,9 +30,20 @@ public class Scene implements ILogic {
         actors = new ArrayList<>();
     }
 
-    public void addActor(Actor actor) {
+    private void addActor(Actor actor, boolean sort) {
         actors.add(actor);
-        actors.sort(null);
+        if (sort) actors.sort(null);
+    }
+
+    public void addActor(Actor actor) {
+        addActor(actor, true);
+    }
+
+    public void addActors(Actor... actors) {
+        for (int i = 0; i < actors.length; i++) {
+            addActor(actors[i], false);
+        }
+        this.actors.sort(null);
     }
 
     @Override
