@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,6 +15,7 @@ import org.mocha.annotations.Multithreading;
 import org.mocha.annotations.UnlimitFPS;
 import org.mocha.annotations.Window;
 import org.mocha.exceptions.WindowNotDefinedException;
+import org.mocha.inputs.ComponentHandler;
 import org.mocha.inputs.InputManager;
 import org.mocha.inputs.KeyHandler;
 import org.mocha.inputs.MouseHandler;
@@ -23,6 +25,7 @@ import org.mocha.util.platform.Resources;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * The main class of your game. You should extend this class and start making your game.
@@ -39,6 +42,11 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     @Getter
     private int screenHeight;
 
+    @Setter
+    private double scale;
+    private BufferedImage backBuffer;
+    private Graphics2D backGraphics;
+
     private boolean blackBars;
     private boolean resizable;
     private String title;
@@ -53,12 +61,14 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
 
     private boolean limited = true;
 
+    @Getter
     protected InputManager input;
     protected SceneManager scenes;
     protected Scene scene;
 
     private KeyHandler keyH;
     private MouseHandler mouseH;
+    private ComponentHandler componentH;
 
     public Application() {
         System.setProperty("sun.java2d.opengl", "True");
@@ -69,6 +79,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         scenes = new SceneManager(scene);
         keyH = new KeyHandler(input);
         mouseH = new MouseHandler(input);
+        componentH = new ComponentHandler(this);
         
         try {
             if (getClass().isAnnotationPresent(Window.class)) {
@@ -84,6 +95,9 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
             } else {
                 throw new WindowNotDefinedException();
             }
+
+            backBuffer = new BufferedImage(getScreenWidth(), getScreenHeight(), BufferedImage.TYPE_INT_ARGB);
+            backGraphics = backBuffer.createGraphics();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
@@ -117,6 +131,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         this.setBackground(Color.BLACK);
         this.addKeyListener(keyH);
         this.addMouseListener(mouseH);
+        this.addComponentListener(componentH);
 
         start();
 
@@ -226,16 +241,16 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
+        var g2 = (Graphics2D) g;
+
+        backGraphics.setColor(Color.BLACK);
+        backGraphics.fillRect(0, 0, backBuffer.getWidth(), backBuffer.getHeight());
+
+        draw(backGraphics);
 
         // Get the window dimensions
         int windowWidth = getWidth();
         int windowHeight = getHeight();
-
-        // Calculate the scale factor to maintain 4:3 aspect ratio
-        double scaleX = (double) windowWidth / screenWidth;
-        double scaleY = (double) windowHeight / screenHeight;
-        double scale = Math.min(scaleX, scaleY); // Use the smaller scale to fit within the window
 
         // Calculate the scaled resolution
         int scaledWidth = (int) (screenWidth * scale);
@@ -252,7 +267,7 @@ public abstract class Application extends JPanel implements Runnable, ILogic {
         g2.scale(scale, scale);
 
         // Render the game content
-        draw(g2);
+        g2.drawImage(backBuffer, 0, 0, null);
 
         // Reset transformations
         g2.setTransform(trans);

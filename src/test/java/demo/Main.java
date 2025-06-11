@@ -24,14 +24,27 @@ public class Main extends Application {
         player = new Player(16, 16, input);
         scene.addActor(player);
         Sprite spr = null;
+        Sprite spr2 = null;
         try {
-            var teste = Resources.getImage("sprites/bosta.png");
-            spr = new Sprite(50, 50, teste);
+            var teste = Resources.getImage("sprites/background-night.png");
+            spr = new Sprite(getScreenWidth(), 0, teste) {
+                @Override
+                public void update(double deltaTime) {
+                    this.velocity.setX(-5);
+                }
+            };
+            spr2 = new Sprite(getScreenWidth()+teste.getWidth(), 0, teste) {
+                @Override
+                public void update(double deltaTime) {
+                    this.velocity.setX(-5);
+                }
+            };
         } catch (Exception e) {
             e.printStackTrace();
         }
         spr.setZ(1);
         scene.addActor(spr);
+        scene.addActor(spr2);
         
         init();
     }
