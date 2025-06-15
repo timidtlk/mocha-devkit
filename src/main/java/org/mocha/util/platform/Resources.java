@@ -1,5 +1,7 @@
 package org.mocha.util.platform;
 
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -95,6 +97,19 @@ public final class Resources {
             e.printStackTrace();
         }
         return instance;
+    }
+
+    public static void registerFont(String path) {
+        registerFont(path, Font.TRUETYPE_FONT);
+    }
+
+    public static void registerFont(String path, int fontFormat) {
+        try {
+            var ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(fontFormat, getLocation(path).openStream()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FunctionalInterface

@@ -64,6 +64,11 @@ public class Actor implements IInnerLogic, Comparable<Actor> {
         position.setY(y);
     }
 
+    public void setLocalPosition(double x, double y) {
+        localPosition.setX(x);
+        localPosition.setY(y);
+    }
+
     public void rotateTo(Vector2 position, double factor) {
         position.subtract(this.position);
 
@@ -76,7 +81,7 @@ public class Actor implements IInnerLogic, Comparable<Actor> {
         rotation += radians;
     }
 
-    private void addChild(Actor agent, boolean sort) {
+    protected void addChild(Actor agent, boolean sort) {
         children.add(agent);
         agent.setParent(this);
         agent.setAnchor(anchor);

@@ -7,6 +7,8 @@ import org.mocha.Application;
 import org.mocha.actor.Sprite;
 import org.mocha.annotations.Multithreading;
 import org.mocha.annotations.Window;
+import org.mocha.gui.CanvasLayer;
+import org.mocha.gui.Label;
 
 @Window(width = 640, height = 480, title = "Test", fullScreen = true)
 @Multithreading
@@ -21,7 +23,7 @@ public class Main extends Application {
         input.addAction("mouse3", MouseEvent.BUTTON3);
         
         player = new Player(16, 16, input);
-        scene.addActor(player);
+
         Sprite spr = null;
         Sprite spr2 = null;
         try {
@@ -46,7 +48,17 @@ public class Main extends Application {
             e.printStackTrace();
         }
         spr.setZ(1);
-        scene.addActors(spr, spr2);
+        spr2.setZ(1);
+
+        var cl = new CanvasLayer(getScreenWidth(), getScreenHeight());
+        cl.setZ(-1);
+        var label = new Label("ola");
+        label.setSize(100, 100);
+        label.setLocalPosition(100, 100);
+
+        cl.addChild(label);
+
+        scene.addActors(player, spr, spr2, cl);
         
         init();
     }
