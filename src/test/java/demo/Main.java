@@ -53,7 +53,7 @@ public class Main extends Application {
         var cl = new CanvasLayer(getScreenWidth(), getScreenHeight());
         cl.setZ(-1);
         var label = new Label("ola");
-        label.setSize(100, 100);
+        label.autoSize();
         label.setLocalPosition(100, 100);
 
         cl.addChild(label);

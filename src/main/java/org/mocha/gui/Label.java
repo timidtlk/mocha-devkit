@@ -4,7 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+import javax.smartcardio.Card;
+import javax.swing.BorderFactory;
 import javax.swing.JTextPane;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.Utilities;
 
 import lombok.Getter;
 
@@ -27,6 +32,33 @@ public class Label extends GUIActor {
         pane.paint(g2);
 
         g2.setTransform(trans);
+    }
+
+    public void autoSize() {
+        //align vertical
+        var doc = pane.getStyledDocument();
+        var center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
+        int lineCount = (getText().length() == 0) ? 1 : 0;
+        try {
+            int offset = getText().length(); 
+            while (offset > 0) {
+                offset = Utilities.getRowStart(pane, offset) - 1;
+                lineCount++;
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+
+        var metrics = pane.getFontMetrics(pane.getFont());
+
+        var textWidth = 0;
+        for (int i = 0; i < getText().length(); i++) {
+            textWidth += metrics.charWidth(getText().charAt(i));
+        }
+
+        pane.setBounds(0, 0, textWidth, lineCount * metrics.getHeight());
+        pane.setAlignmentX(JTextPane.CENTER_ALIGNMENT);
     }
 
     public String getText() {
