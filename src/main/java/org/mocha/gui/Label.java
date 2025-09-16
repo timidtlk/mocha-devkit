@@ -4,9 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-import javax.smartcardio.Card;
-import javax.swing.BorderFactory;
 import javax.swing.JTextPane;
+import javax.swing.border.Border;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.Utilities;
@@ -57,8 +56,9 @@ public class Label extends GUIActor {
             textWidth += metrics.charWidth(getText().charAt(i));
         }
 
-        pane.setBounds(0, 0, textWidth, lineCount * metrics.getHeight());
+        pane.setBorder(null);
         pane.setAlignmentX(JTextPane.CENTER_ALIGNMENT);
+        pane.setBounds(0, 0, textWidth, lineCount * metrics.getHeight());
     }
 
     public String getText() {
@@ -71,6 +71,14 @@ public class Label extends GUIActor {
 
     public void setSize(int width, int height) {
         pane.setSize(width, height);
+    }
+
+    public Border getBorder() {
+        return pane.getBorder();
+    }
+
+    public void setBorder(Border border) {
+        pane.setBorder(border);
     }
 
     public Font getFont() {
