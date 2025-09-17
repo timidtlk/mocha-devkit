@@ -25,4 +25,14 @@ public class CanvasLayer extends Actor{
             guiAgent.setCanvasLayer(this);
         }
     }
+
+    @Override
+    public void removeChild(Actor agent) {
+        super.removeChild(agent);
+
+        if (agent instanceof GUIActor) {
+            var guiAgent = (GUIActor) agent;
+            guiAgent.setCanvasLayer(null);
+        }
+    }
 }

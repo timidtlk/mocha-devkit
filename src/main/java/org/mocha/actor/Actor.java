@@ -103,7 +103,7 @@ public class Actor implements IInnerLogic, Comparable<Actor> {
         return this.getZ() - b.getZ();
     }
 
-    public void removeChildren(Actor agent) {
+    public void removeChild(Actor agent) {
         children.remove(agent);
         agent.setParent(null);
     }
