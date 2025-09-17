@@ -55,6 +55,7 @@ public class Main extends Application {
         var label = new Label("ola");
         label.autoSize();
         label.setLocalPosition(100, 100);
+        label.setSize(50, 50);
 
         cl.addChild(label);
 

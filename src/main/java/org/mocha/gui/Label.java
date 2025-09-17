@@ -21,6 +21,7 @@ public class Label extends GUIActor {
         pane = new JTextPane();
         setText(text);
         setForeground(Color.WHITE);
+        setBorder(null);
     }
 
     @Override
@@ -56,8 +57,6 @@ public class Label extends GUIActor {
             textWidth += metrics.charWidth(getText().charAt(i));
         }
 
-        pane.setBorder(null);
-        pane.setAlignmentX(JTextPane.CENTER_ALIGNMENT);
         pane.setBounds(0, 0, textWidth, lineCount * metrics.getHeight());
     }
 
@@ -107,5 +106,13 @@ public class Label extends GUIActor {
 
     public void setOpaque(boolean opaque) {
         pane.setOpaque(opaque);
+    }
+
+    public float getAlignment() {
+        return alignment;
+    }
+
+    public void setAlignment(float alignment) {
+        this.alignment = alignment;
     }
 }
